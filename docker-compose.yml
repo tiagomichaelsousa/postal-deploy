@@ -6,17 +6,27 @@ services:
     volumes:
       - '/opt/postal/config:/config'
     restart: unless-stopped
+    networks:
+      - coolify
   smtp:
     image: 'ghcr.io/postalserver/postal:3.3.4'
     command: 'postal smtp-server'
-    cap_add:
-      - NET_BIND_SERVICE
     volumes:
       - '/opt/postal/config:/config'
     restart: unless-stopped
+    networks:
+      - coolify
   worker:
     image: 'ghcr.io/postalserver/postal:3.3.4'
     command: 'postal worker'
     volumes:
       - '/opt/postal/config:/config'
     restart: unless-stopped
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true
+    name: coolify
+    attachable: true
